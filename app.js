@@ -4,22 +4,15 @@ const PORT = process.env.PORT || 3000
 const me = require('./lib/myModule.js')
 const _ = require('lodash')
 
-let expression = "(1+2)*3-(4-5)*(6+7)"
+let expression = "(1+2)/3-(4-5)*(6+7)/4+5/3-(445-2)"
 console.log(expression);
 
 me.tokenizeExpression(expression)
 	.then(x => me.groupNumberTokens(x))
 	.then(x => me.toPostfix(x))
+	.then(x => me.evaluatePostfix(x))
 	.then(answer => {
-		if(_.isEqual(answer,[ '1', '2', '+', '3', '*', '4', '5', '-', '6', '7', '+', '*', '-' ])){
-			console.log('CORRECT POSTFIX');
-		} else {
-			console.log('WRONG POSTFIX');
-		}
-		return me.evaluate(answer)
-	})
-	.then(answer => {
-		console.log(answer)
+		console.log('answer: ', answer);
 	})
 
 app.listen(PORT, ()=>{
