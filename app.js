@@ -4,16 +4,11 @@ const PORT = process.env.PORT || 3000
 const me = require('./lib/myModule.js')
 const _ = require('lodash')
 
-let expression = "(1+2)/3-(4-5)*(6+7)/4+5/3-(445-2)"
-console.log(expression);
+app.use(express.static(__dirname + '/Views'))
 
-me.tokenizeExpression(expression)
-	.then(x => me.groupNumberTokens(x))
-	.then(x => me.toPostfix(x))
-	.then(x => me.evaluatePostfix(x))
-	.then(answer => {
-		console.log('answer: ', answer);
-	})
+app.get('/', (req, res) => {
+	res.sendFile('index.html')
+})
 
 app.listen(PORT, ()=>{
 	// console.log(`Server running on ${PORT}`);
