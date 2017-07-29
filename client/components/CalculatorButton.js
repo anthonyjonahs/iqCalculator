@@ -4,11 +4,11 @@ const CalculatorButton = (props) => {
 	return (
 		<button
 			class="btn btn-default"
-			style={{width:'100%', height:'5vw', minHeight:'30px', margin:'1px'}}
+			style={{width:'100%', height:'6vw', minHeight:'50px', margin:'1px'}}
 			name="button"
 			value={props.value}
 			onClick={props.clickHandler}>
-			{props.content}
+				<h4>{props.content}</h4>
 		</button>
 	)
 }

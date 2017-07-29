@@ -3,6 +3,7 @@ import parse from '../../lib/parse.js'
 import CalculatorButton from './CalculatorButton'
 import CalculatorWrapper from './CalculatorWrapper'
 import CalculatorScreen from './CalculatorScreen'
+import _ from 'lodash'
 
 export default class Calculator extends React.Component {
 	constructor() {
@@ -27,6 +28,7 @@ export default class Calculator extends React.Component {
 	componentWillUnmount() {
 		document.removeEventListener('keydown', this.handleKeyPress)
 	}
+
 	solve() {
 		let expression = this.state.input
 
@@ -35,8 +37,13 @@ export default class Calculator extends React.Component {
 			.then(tokenizedExpression => parse.toPostfix(tokenizedExpression))
 			.then(postfixExpression => parse.evaluatePostfix(postfixExpression))
 			.then(result => {
-				this.setState({ input: result, showingResult: true })
+				// result = _.truncate(result, {length:24, omission:''})
+				this.setState({
+					input: result,
+					showingResult: true
+				})
 			})
+			.catch(err => alert(err))
 	}
 
 	clear() {
@@ -57,7 +64,7 @@ export default class Calculator extends React.Component {
 	}
 
 	handleClick(e) {
-		switch (e.target.value) {
+		switch (e.currentTarget.value) {
 			case 'AC': {
 				this.clear()
 				break
@@ -67,7 +74,7 @@ export default class Calculator extends React.Component {
 				break
 			}
 			default: {
-				this.writeToInput(e.target.value)
+				this.writeToInput(e.currentTarget.value)
 			}
 		}
 	}
@@ -75,10 +82,12 @@ export default class Calculator extends React.Component {
 	handleKeyPress(event) {
 		let validInputs = ['1','2','3','4','5','6','7','8','9','0','.','+','-','/','*','(',')']
 		let key = event.key
+		let isValidInput = key => validInputs.includes(key)
 
-		if (validInputs.includes(key)) {
+		if (isValidInput(key)) {
 			this.writeToInput(key)
 		} else if (key === 'Enter') {
+			event.preventDefault() //Avoid unwanted click event if there is a focused calculator button.
 			this.solve()
 		} else if (key === 'Backspace') {
 			this.clear()
@@ -105,21 +114,11 @@ export default class Calculator extends React.Component {
 				<div class="row">
 					<CalculatorScreen value={this.state.input}/>
 				</div>
-				<div class="row">
-					{buttonRowOne}
-				</div>
-				<div class="row">
-					{buttonRowTwo}
-				</div>
-				<div class="row">
-					{buttonRowThree}
-				</div>
-				<div class="row">
-					{buttonRowFour}
-				</div>
-				<div class="row">
-					{buttonRowFive}
-				</div>
+				<div class="row">{buttonRowOne}</div>
+				<div class="row">{buttonRowTwo}</div>
+				<div class="row">{buttonRowThree}</div>
+				<div class="row">{buttonRowFour}</div>
+				<div class="row">{buttonRowFive}</div>
 			</CalculatorWrapper>
 		);
   }
