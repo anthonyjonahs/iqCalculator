@@ -1,8 +1,10 @@
 import React from 'react';
 import parse from '../../lib/parse.js'
 import CalculatorButton from './CalculatorButton'
+import CalculatorButtonGroup from './CalculatorButtonGroup'
 import CalculatorWrapper from './CalculatorWrapper'
 import CalculatorScreen from './CalculatorScreen'
+import CalculatorFooter from './CalculatorFooter'
 import _ from 'lodash'
 
 export default class Calculator extends React.Component {
@@ -11,7 +13,8 @@ export default class Calculator extends React.Component {
 
 		this.state = {
 			input:'',
-			showingResult: false
+			showingResult: false,
+			valid: true
 		}
 
 		this.handleClick = this.handleClick.bind(this)
@@ -103,7 +106,7 @@ export default class Calculator extends React.Component {
 			})
 		}
 
-		let buttonRowOne = renderButtons(['(',')','AC','?'])
+		let buttonRowOne = renderButtons(['(',')','AC'])
 		let buttonRowTwo = renderButtons(['7','8','9','*'])
 		let buttonRowThree = renderButtons(['4','5','6','/'])
 		let buttonRowFour = renderButtons(['1','2','3','+'])
@@ -111,14 +114,15 @@ export default class Calculator extends React.Component {
 
 		return (
 			<CalculatorWrapper>
-				<div class="row">
-					<CalculatorScreen value={this.state.input}/>
-				</div>
-				<div class="row">{buttonRowOne}</div>
-				<div class="row">{buttonRowTwo}</div>
-				<div class="row">{buttonRowThree}</div>
-				<div class="row">{buttonRowFour}</div>
-				<div class="row">{buttonRowFive}</div>
+				<CalculatorScreen value={this.state.input} valid={this.state.valid}/>
+				<CalculatorButtonGroup>
+					<div class="row">{buttonRowOne}</div>
+					<div class="row">{buttonRowTwo}</div>
+					<div class="row">{buttonRowThree}</div>
+					<div class="row">{buttonRowFour}</div>
+					<div class="row">{buttonRowFive}</div>
+				</CalculatorButtonGroup>
+				<CalculatorFooter />
 			</CalculatorWrapper>
 		);
   }
