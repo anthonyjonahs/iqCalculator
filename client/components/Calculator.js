@@ -1,6 +1,8 @@
 import React from 'react';
 import parse from '../../lib/parse.js'
 import CalculatorButton from './CalculatorButton'
+import CalculatorWrapper from './CalculatorWrapper'
+import CalculatorScreen from './CalculatorScreen'
 
 export default class Calculator extends React.Component {
 	constructor() {
@@ -8,14 +10,13 @@ export default class Calculator extends React.Component {
 
 		this.state = {
 			input:'',
-			resultMode: false
+			showingResult: false
 		}
 
 		this.handleClick = this.handleClick.bind(this)
 		this.clear = this.clear.bind(this)
 		this.solve = this.solve.bind(this)
 		this.writeToInput = this.writeToInput.bind(this)
-		this.clearAndWriteToInput = this.clearAndWriteToInput.bind(this)
 		this.handleKeyPress = this.handleKeyPress.bind(this)
 	}
 
@@ -27,39 +28,32 @@ export default class Calculator extends React.Component {
 		document.removeEventListener('keydown', this.handleKeyPress)
 	}
 	solve() {
-		console.log('Solving ...');
 		let expression = this.state.input
+
 		parse.splitIntoArray(expression)
 			.then(splitExpression => parse.groupConsecOperands(splitExpression))
 			.then(tokenizedExpression => parse.toPostfix(tokenizedExpression))
 			.then(postfixExpression => parse.evaluatePostfix(postfixExpression))
 			.then(result => {
-				this.setState({ input: result, resultMode: true })
+				this.setState({ input: result, showingResult: true })
 			})
 	}
 
 	clear() {
-		this.setState({input:'', resultMode: false})
+		this.setState({input:'', showingResult: false})
 	}
 
 	writeToInput(value) {
-		if(this.state.resultMode === true) {
+		if(this.state.showingResult === true) {
 			this.setState({
 				input: value,
-				resultMode: false
+				showingResult: false
 			})
 		} else {
 			this.setState({
 				input: this.state.input.concat(value)
 			})
 		}
-	}
-
-	clearAndWriteToInput(value) {
-		this.setState({
-			input: value,
-			resultMode: false
-		})
 	}
 
 	handleClick(e) {
@@ -81,7 +75,7 @@ export default class Calculator extends React.Component {
 	handleKeyPress(event) {
 		let validInputs = ['1','2','3','4','5','6','7','8','9','0','.','+','-','/','*','(',')']
 		let key = event.key
-		console.log(key);
+
 		if (validInputs.includes(key)) {
 			this.writeToInput(key)
 		} else if (key === 'Enter') {
@@ -92,33 +86,24 @@ export default class Calculator extends React.Component {
 	}
 
 	render() {
-		let buttonRowZeroContent = ['(',')','AC','?']
-		let buttonRowOneContent = ['7','8','9','*']
-		let buttonRowTwoContent = ['4','5','6','/']
-		let buttonRowThreeContent = ['1','2','3','+']
-		let buttonRowFourContent = ['0','.','=','-']
-		let renderButton = (content,index) => {
-			return (
-				<div key={index} class="col-xs-1 text-center" >
-					<CalculatorButton value={content} content={content} clickHandler={this.handleClick} />
-				</div>
-			)
+		let renderButtons = (buttons) => {
+			return buttons.map((content, index) => {
+				return	<div key={index} class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center" style={{padding:'0px'}} >
+									<CalculatorButton value={content} content={content} clickHandler={this.handleClick} />
+								</div>
+			})
 		}
-		let buttonRowZero = buttonRowZeroContent.map(renderButton)
-		let buttonRowOne = buttonRowOneContent.map(renderButton)
-		let buttonRowTwo = buttonRowTwoContent.map(renderButton)
-		let buttonRowThree = buttonRowThreeContent.map(renderButton)
-		let buttonRowFour = buttonRowFourContent.map(renderButton)
+
+		let buttonRowOne = renderButtons(['(',')','AC','?'])
+		let buttonRowTwo = renderButtons(['7','8','9','*'])
+		let buttonRowThree = renderButtons(['4','5','6','/'])
+		let buttonRowFour = renderButtons(['1','2','3','+'])
+		let buttonRowFive = renderButtons(['0','.','=','-'])
 
 		return (
-			<div>
+			<CalculatorWrapper>
 				<div class="row">
-					<div class="col-xs-4" style={{height:'75px',border:'1px solid black'}}>
-						<h2 class="pull-right">{this.state.input}</h2>
-					</div>
-				</div>
-				<div class="row">
-					{buttonRowZero}
+					<CalculatorScreen value={this.state.input}/>
 				</div>
 				<div class="row">
 					{buttonRowOne}
@@ -132,7 +117,10 @@ export default class Calculator extends React.Component {
 				<div class="row">
 					{buttonRowFour}
 				</div>
-			</div>
+				<div class="row">
+					{buttonRowFive}
+				</div>
+			</CalculatorWrapper>
 		);
   }
 }
