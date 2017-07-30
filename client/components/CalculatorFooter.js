@@ -1,13 +1,13 @@
 import React from 'react'
 
-const CalculatorButtonGroup = (props) => {
+const CalculatorFooter = () => {
 	return (
 		<div class='panel-footer text-center'>
-			<a href='#'>
+			<a href='https://github.com/anthonyjonahs/iqCalculator' target='_blank'>
 				<i class="icon-github icon-2x" />
 			</a>
 		</div>
 	)
 }
 
-export default CalculatorButtonGroup
+export default CalculatorFooter

@@ -14,3 +14,8 @@ const CalculatorButton = (props) => {
 }
 
 export default CalculatorButton
+
+CalculatorButton.propTypes = {
+	value: Proptypes.string,
+	content: Proptypes.string
+}

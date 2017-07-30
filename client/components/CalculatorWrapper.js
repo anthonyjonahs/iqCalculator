@@ -13,3 +13,7 @@ const CalculatorWrapper = (props) => {
 }
 
 export default CalculatorWrapper
+
+CalculatorButtonGroup.propTypes = {
+	children: Proptypes.node
+}

@@ -9,3 +9,7 @@ const CalculatorButtonGroup = (props) => {
 }
 
 export default CalculatorButtonGroup
+
+CalculatorButtonGroup.propTypes = {
+	children: Proptypes.node
+}

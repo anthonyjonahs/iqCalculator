@@ -1,11 +1,11 @@
 import React from 'react';
 import parse from '../../lib/parse.js'
+import _ from 'lodash'
 import CalculatorButton from './CalculatorButton'
 import CalculatorButtonGroup from './CalculatorButtonGroup'
-import CalculatorWrapper from './CalculatorWrapper'
-import CalculatorScreen from './CalculatorScreen'
 import CalculatorFooter from './CalculatorFooter'
-import _ from 'lodash'
+import CalculatorScreen from './CalculatorScreen'
+import CalculatorWrapper from './CalculatorWrapper'
 
 export default class Calculator extends React.Component {
 	constructor() {
@@ -14,7 +14,7 @@ export default class Calculator extends React.Component {
 		this.state = {
 			input:'',
 			showingResult: false,
-			valid: false
+			valid: true
 		}
 
 		this.handleClick = this.handleClick.bind(this)
@@ -106,21 +106,19 @@ export default class Calculator extends React.Component {
 			})
 		}
 
-		let buttonRowOne = renderButtons(['(',')','AC'])
-		let buttonRowTwo = renderButtons(['7','8','9','*'])
-		let buttonRowThree = renderButtons(['4','5','6','/'])
-		let buttonRowFour = renderButtons(['1','2','3','+'])
-		let buttonRowFive = renderButtons(['0','.','=','-'])
+		let buttons = [
+			<div class="row">{renderButtons(['(',')','AC'])}</div>,
+			<div class='row'>{renderButtons(['7','8','9','*'])}</div>,
+			<div class='row'>{renderButtons(['4','5','6','/'])}</div>,
+			<div class='row'>{renderButtons(['1','2','3','+'])}</div>,
+			<div class='row'>{renderButtons(['0','.','=','-'])}</div>
+		]
 
 		return (
 			<CalculatorWrapper>
 				<CalculatorScreen value={this.state.input} valid={this.state.valid}/>
 				<CalculatorButtonGroup>
-					<div class="row">{buttonRowOne}</div>
-					<div class="row">{buttonRowTwo}</div>
-					<div class="row">{buttonRowThree}</div>
-					<div class="row">{buttonRowFour}</div>
-					<div class="row">{buttonRowFive}</div>
+					{buttons}
 				</CalculatorButtonGroup>
 				<CalculatorFooter />
 			</CalculatorWrapper>
