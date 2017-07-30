@@ -14,7 +14,7 @@ export default class Calculator extends React.Component {
 		this.state = {
 			input:'',
 			showingResult: false,
-			valid: true
+			valid: false
 		}
 
 		this.handleClick = this.handleClick.bind(this)
