@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types';
+
 
 const CalculatorWrapper = (props) => {
 	return (
@@ -14,6 +16,6 @@ const CalculatorWrapper = (props) => {
 
 export default CalculatorWrapper
 
-CalculatorButtonGroup.propTypes = {
-	children: Proptypes.node
+CalculatorWrapper.propTypes = {
+	children: PropTypes.node
 }

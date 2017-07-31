@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const CalculatorButton = (props) => {
 	return (
@@ -16,6 +17,6 @@ const CalculatorButton = (props) => {
 export default CalculatorButton
 
 CalculatorButton.propTypes = {
-	value: Proptypes.string,
-	content: Proptypes.string
+	value: PropTypes.string,
+	content: PropTypes.string
 }

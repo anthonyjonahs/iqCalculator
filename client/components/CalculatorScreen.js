@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types';
+
 
 const CalculatorScreen = (props) => {
 
@@ -18,7 +20,7 @@ const CalculatorScreen = (props) => {
 
 export default CalculatorScreen
 
-CalculatorButton.propTypes = {
-	valid: Proptypes.bool.isRequired,
-	value: Proptypes.string
+CalculatorScreen.propTypes = {
+	valid: PropTypes.bool.isRequired,
+	value: PropTypes.string
 }
