@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "dev": "webpack-dev-server --content-base client"
+		"start": "node app.js",
+		"test": "jest --verbose",
+    "dev": "webpack-dev-server --content-base client",
+		"heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
   },
   "keywords": [],
   "author": "",

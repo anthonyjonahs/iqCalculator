@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express()
 const PORT = process.env.PORT || 3000
-const parse = require('./lib/parse.js')
-const _ = require('lodash')
 
 app.use(express.static(__dirname + '/client'))
 app.use(express.static(__dirname + '/dist'))
